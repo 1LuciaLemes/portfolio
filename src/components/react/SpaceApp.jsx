@@ -23,7 +23,7 @@ export default function SpaceApp() {
     <div className="relative min-h-screen overflow-hidden">
       <Starfield />
 
-      <header className="fixed inset-x-0 top-0 z-20 border-b border-space-800 bg-space-950/70 backdrop-blur-md">
+      <header className="fixed inset-x-0 top-0 z-20 border-b border-surface/80 bg-void/70 backdrop-blur-md">
         <nav
           aria-label="Navegación de secciones"
           className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-6 gap-y-2 px-4 py-3"
@@ -31,8 +31,12 @@ export default function SpaceApp() {
           <button
             type="button"
             onClick={() => setActiva('inicio')}
-            className="font-hud text-xs font-semibold uppercase tracking-[0.3em] text-plasma"
+            className="flex items-center gap-2 font-hud text-xs font-semibold uppercase tracking-[0.3em] text-lumen transition-colors duration-300 hover:text-flare"
           >
+            <span
+              aria-hidden="true"
+              className="h-1.5 w-1.5 rounded-full bg-flare shadow-[0_0_10px_rgba(224,82,82,0.9)]"
+            />
             LL · Orbital
           </button>
           <ul className="flex flex-wrap items-center gap-2 sm:gap-4">
@@ -44,8 +48,8 @@ export default function SpaceApp() {
                   aria-current={activa === s.id ? 'true' : undefined}
                   className={`font-hud text-[11px] uppercase tracking-widest transition-colors duration-300 sm:text-xs ${
                     activa === s.id
-                      ? 'text-plasma'
-                      : 'text-stardust hover:text-starlight'
+                      ? 'text-flare [text-shadow:0_0_12px_rgba(224,82,82,0.7)]'
+                      : 'text-ash hover:text-lumen'
                   }`}
                 >
                   {s.etiqueta}

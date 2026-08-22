@@ -2,26 +2,25 @@
 
 /* ============================================================
    [AQUÍ AGREGARÉ MI PALETA DE COLORES PERSONALIZADA]
-   Reemplazá los hex de ejemplo por tu paleta definitiva.
-   Cada token genera clases automáticas:
-   --color-space-950   ->  bg-space-950 / text-space-950 / border-space-950
-   --font-display      ->  font-display
+   Concepto: Energía Estelar — rojo como fuente de luz física.
+   Distribución: 75% oscuridad / 15% cálidos claros /
+   8% rojo / 2% highlights luminosos.
    ============================================================ */
 @theme {
-  --color-space-950: #050510;
-  --color-space-900: #0a0a1f;
-  --color-space-800: #12122e;
+  --color-void: #090708;
+  --color-abyss: #120b0c;
+  --color-surface: #211315;
 
-  --color-nebula: #7b2ff7;
-  --color-nebula-light: #9d5cff;
-  --color-plasma: #00f0ff;
+  --color-ember: #6e1f26;
+  --color-stellar: #b8323c;
+  --color-flare: #e05252;
 
-  --color-starlight: #f8f8ff;
-  --color-stardust: #a0a0c0;
+  --color-lumen: #e7d8c8;
+  --color-ash: #a69b98;
 
-  --font-display: "Orbitron", sans-serif;
-  --font-body: "Inter", sans-serif;
-  --font-hud: "JetBrains Mono", monospace;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-body: "Space Grotesk", sans-serif;
+  --font-hud: "DM Mono", monospace;
 
   --animate-aterrizaje: aterrizaje 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
 
@@ -37,6 +36,32 @@
       filter: blur(0);
     }
   }
+
+  --animate-barrido: barrido 1.4s ease-in-out infinite;
+
+  @keyframes barrido {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(100%);
+    }
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-void);
+  color: var(--color-lumen);
+  font-family: var(--font-body);
+}
+
+::selection {
+  background-color: var(--color-flare);
+  color: var(--color-void);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -47,19 +72,4 @@
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  background-color: var(--color-space-950);
-  color: var(--color-starlight);
-  font-family: var(--font-body);
-}
-
-::selection {
-  background-color: var(--color-nebula);
-  color: var(--color-starlight);
 }
