@@ -1,0 +1,7 @@
+{
+  "lenguajes": ["JavaScript", "TypeScript", "HTML5", "CSS3"],
+  "frameworks": ["React", "React Router", "Astro", "Tailwind CSS"],
+  "backend": ["Node.js", "Express", "PostgreSQL", "Firebase"],
+  "herramientas": ["Git", "GitHub", "Vercel", "Vitest", "Amazon S3", "Vite"],
+  "aprendiendo": ["Desarrollo backend", "Bases de datos", "APIs"]
+}

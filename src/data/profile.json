@@ -1,0 +1,21 @@
+{
+  "nombre": "Lucía Lemes",
+  "rol": "Frontend Developer | Full Stack Developer",
+  "bio": "Estudiante de Ingeniería en Computación y Full Stack Developer, con especial interés y mayor experiencia práctica en desarrollo frontend. Me gusta crear aplicaciones web funcionales, intuitivas y atractivas, buscando que las soluciones sean claras y útiles para quienes las utilizan.",
+  "ubicacion": "Uruguay",
+  "github": "https://github.com/1LuciaLemes",
+  "linkedin": "https://www.linkedin.com/in/lucia-lemes/",
+  "email": "lemeslucya@gmail.com",
+  "formacion": [
+    {
+      "titulo": "Ingeniería en Computación",
+      "institucion": "Universidad de la República",
+      "periodo": "2025 – Actualidad"
+    },
+    {
+      "titulo": "Full Stack Web Developer",
+      "institucion": "Henry Bootcamp",
+      "periodo": "2026"
+    }
+  ]
+}

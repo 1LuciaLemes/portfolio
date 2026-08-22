@@ -1,0 +1,26 @@
+[
+  {
+    "titulo": "Globalance",
+    "descripcion": "Billetera virtual multimoneda en equipo, orientada a freelancers para gestionar pagos y operaciones en distintas divisas. Desarrollé transferencias, conversiones, contactos, historial y notificaciones, además de un buscador global, con servicios mock para desacoplar el frontend del backend.",
+    "tecnologias": ["React", "TypeScript", "Vite", "Tailwind CSS", "React Router", "Firebase", "APIs REST", "Vitest"],
+    "demo": "",
+    "repo": "https://github.com/Globallink-Studio/Frontend-Globalance",
+    "imagen": ""
+  },
+  {
+    "titulo": "Ecommerce de perfumes",
+    "descripcion": "Ecommerce con catálogo de 60 productos y panel de administración. Desarrollé integralmente interfaces, navegación, gestión de productos, carrito y flujo de compra, con Firebase como base de datos y Amazon S3 para la gestión de imágenes.",
+    "tecnologias": ["React", "JavaScript", "React Router", "Firebase", "Amazon S3"],
+    "demo": "",
+    "repo": "https://github.com/1LuciaLemes/ProyectoM5_LuciaLemes",
+    "imagen": ""
+  },
+  {
+    "titulo": "Chat IA — Google Gemini",
+    "descripcion": "SPA que integra Google Gemini AI para conversar con personajes de Harry Potter. Implementé la integración con la API, una función serverless para proteger la API key y pruebas automatizadas.",
+    "tecnologias": ["JavaScript", "Google Gemini AI", "Vercel Functions", "Vitest"],
+    "demo": "",
+    "repo": "https://github.com/1LuciaLemes/ProyectoM3_LuciaLemes",
+    "imagen": ""
+  }
+]
