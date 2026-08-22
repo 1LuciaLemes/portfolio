@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+/* ============================================================
+   [AQUÍ AGREGARÉ MI PALETA DE COLORES PERSONALIZADA]
+   Reemplazá los hex de ejemplo por tu paleta definitiva.
+   Cada token genera clases automáticas:
+   --color-space-950   ->  bg-space-950 / text-space-950 / border-space-950
+   --font-display      ->  font-display
+   ============================================================ */
+@theme {
+  --color-space-950: #050510;
+  --color-space-900: #0a0a1f;
+  --color-space-800: #12122e;
+
+  --color-nebula: #7b2ff7;
+  --color-nebula-light: #9d5cff;
+  --color-plasma: #00f0ff;
+
+  --color-starlight: #f8f8ff;
+  --color-stardust: #a0a0c0;
+
+  --font-display: "Orbitron", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-hud: "JetBrains Mono", monospace;
+
+  --animate-aterrizaje: aterrizaje 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+
+  @keyframes aterrizaje {
+    from {
+      opacity: 0;
+      transform: translateY(48px) scale(0.96);
+      filter: blur(4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-space-950);
+  color: var(--color-starlight);
+  font-family: var(--font-body);
+}
+
+::selection {
+  background-color: var(--color-nebula);
+  color: var(--color-starlight);
+}

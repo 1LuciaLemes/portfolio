@@ -1,0 +1,12 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SpaceApp from '../components/react/SpaceApp';
+import profile from '../data/profile.json';
+
+const titulo = `${profile.nombre} — ${profile.rol}`;
+const descripcion = profile.bio;
+---
+
+<BaseLayout titulo={titulo} descripcion={descripcion}>
+  <SpaceApp client:load />
+</BaseLayout>
