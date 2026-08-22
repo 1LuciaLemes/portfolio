@@ -1,0 +1,23 @@
+# Documentacion local (excluida del repo)
+documentation/
+
+# Dependencias
+node_modules/
+
+# Build y cache de Astro
+dist/
+.astro/
+
+# Variables de entorno
+.env
+.env.*
+!.env.example
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Editores
+.vscode/*
+!.vscode/extensions.json
+.idea/
