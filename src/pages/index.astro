@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SpaceApp from '../components/react/SpaceApp';
+import CustomCursor from '../components/react/CustomCursor';
 import profile from '../data/profile.json';
 
 const titulo = `${profile.nombre} — ${profile.rol}`;
@@ -9,4 +10,5 @@ const descripcion = profile.bio;
 
 <BaseLayout titulo={titulo} descripcion={descripcion}>
   <SpaceApp client:load />
+  <CustomCursor client:media="(pointer: fine)" />
 </BaseLayout>
