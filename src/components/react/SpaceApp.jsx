@@ -39,7 +39,7 @@ export default function SpaceApp() {
       <Starfield />
 
       <header className="fixed inset-x-0 top-0 z-20 border-b border-surface/80 bg-void/70 backdrop-blur-md">
-        <div className="mx-auto max-w-6xl px-4 py-3">
+        <div className="mx-auto max-w-6xl px-4 py-2">
           <div className="flex items-center justify-between gap-4">
             <button
               type="button"
@@ -52,6 +52,30 @@ export default function SpaceApp() {
               />
               LL · Orbital
             </button>
+
+            <nav
+              aria-label="Navegación de secciones"
+              className="hidden items-center gap-4 md:flex"
+            >
+              <ul className="flex items-center gap-4">
+                {SECCIONES.map((s) => (
+                  <li key={s.id}>
+                    <button
+                      type="button"
+                      onClick={() => irA(s.id)}
+                      aria-current={activa === s.id ? 'true' : undefined}
+                      className={`font-hud text-xs uppercase tracking-widest transition-colors duration-300 ${
+                        activa === s.id
+                          ? 'text-flare [text-shadow:0_0_12px_rgba(224,82,82,0.7)]'
+                          : 'text-ash hover:text-lumen'
+                      }`}
+                    >
+                      {s.etiqueta}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </nav>
 
             <button
               type="button"
@@ -80,30 +104,6 @@ export default function SpaceApp() {
               </span>
             </button>
           </div>
-
-          <nav
-            aria-label="Navegación de secciones"
-            className="hidden items-center justify-end gap-2 pt-3 sm:gap-4 md:flex"
-          >
-            <ul className="flex flex-wrap items-center justify-end gap-2 sm:gap-4">
-              {SECCIONES.map((s) => (
-                <li key={s.id}>
-                  <button
-                    type="button"
-                    onClick={() => irA(s.id)}
-                    aria-current={activa === s.id ? 'true' : undefined}
-                    className={`font-hud text-xs uppercase tracking-widest transition-colors duration-300 ${
-                      activa === s.id
-                        ? 'text-flare [text-shadow:0_0_12px_rgba(224,82,82,0.7)]'
-                        : 'text-ash hover:text-lumen'
-                    }`}
-                  >
-                    {s.etiqueta}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </nav>
         </div>
 
         {menuAbierto && (
@@ -112,7 +112,7 @@ export default function SpaceApp() {
             aria-label="Navegación móvil"
             className="border-t border-surface/80 bg-void/95 backdrop-blur-md md:hidden"
           >
-            <ul className="mx-auto max-w-6xl space-y-1 px-4 py-3">
+            <ul className="mx-auto max-w-6xl space-y-1 px-4 py-2">
               {SECCIONES.map((s) => (
                 <li key={s.id}>
                   <button
