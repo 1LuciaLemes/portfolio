@@ -3,7 +3,7 @@ import profile from '../../../data/profile.json';
 export default function HeroSection({ irA }) {
   return (
     <section aria-labelledby="titulo-hero" className="w-full">
-      <p className="animate-aterrizaje flex items-center gap-2.5 font-hud text-xs uppercase tracking-[0.4em] text-stellar">
+      <p className="animate-aterrizaje flex items-center gap-2.5 font-hud text-xs uppercase tracking-[0.4em] text-flare">
         <span
           aria-hidden="true"
           className="h-1 w-1 rounded-full bg-flare shadow-[0_0_10px_rgba(224,82,82,0.9)]"
@@ -18,7 +18,7 @@ export default function HeroSection({ irA }) {
         {profile.nombre}
       </h1>
       <p
-        className="animate-aterrizaje mt-3 font-hud text-lg text-stellar sm:text-2xl"
+        className="animate-aterrizaje mt-3 font-hud text-lg text-flare sm:text-2xl"
         style={{ animationDelay: '240ms' }}
       >
         {`< ${profile.rol} />`}

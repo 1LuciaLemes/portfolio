@@ -3,7 +3,7 @@ import profile from '../../../data/profile.json';
 export default function AboutSection() {
   return (
     <section aria-labelledby="titulo-about" className="w-full">
-      <p className="animate-aterrizaje flex items-center gap-2.5 font-hud text-xs uppercase tracking-[0.4em] text-stellar">
+      <p className="animate-aterrizaje flex items-center gap-2.5 font-hud text-xs uppercase tracking-[0.4em] text-flare">
         <span
           aria-hidden="true"
           className="h-1 w-1 rounded-full bg-flare shadow-[0_0_10px_rgba(224,82,82,0.9)]"
