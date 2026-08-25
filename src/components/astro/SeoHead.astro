@@ -6,6 +6,8 @@ interface Props {
 
 const { titulo, descripcion } = Astro.props;
 const url = Astro.url;
+const site = import.meta.env.SITE;
+const imagenOg = new URL('og.png', site).href;
 ---
 
 <title>{titulo}</title>
@@ -14,7 +16,16 @@ const url = Astro.url;
 <meta property="og:title" content={titulo} />
 <meta property="og:description" content={descripcion} />
 <meta property="og:url" content={url} />
+<meta property="og:image" content={imagenOg} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta
+  property="og:image:alt"
+  content={`Banner del portfolio de ${titulo} con temática espacial y acentos rojos`}
+/>
+<meta property="og:locale" content="es_UY" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={titulo} />
 <meta name="twitter:description" content={descripcion} />
+<meta name="twitter:image" content={imagenOg} />
 <link rel="canonical" href={url} />

@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import SeoHead from '../components/astro/SeoHead.astro';
+import profile from '../data/profile.json';
 
 interface Props {
   titulo: string;
@@ -8,6 +9,19 @@ interface Props {
 }
 
 const { titulo, descripcion } = Astro.props;
+const datosEstructurados = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: profile.nombre,
+  jobTitle: profile.rol,
+  email: `mailto:${profile.email}`,
+  url: import.meta.env.SITE,
+  sameAs: [profile.github, profile.linkedin].filter(Boolean),
+  address: {
+    '@type': 'PostalAddress',
+    addressCountry: 'UY',
+  },
+};
 ---
 
 <!doctype html>
@@ -15,6 +29,7 @@ const { titulo, descripcion } = Astro.props;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#090708" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -24,11 +39,12 @@ const { titulo, descripcion } = Astro.props;
       rel="stylesheet"
     />
     <SeoHead titulo={titulo} descripcion={descripcion} />
+    <script type="application/ld+json" set:html={JSON.stringify(datosEstructurados)} />
   </head>
   <body class="min-h-screen bg-void text-lumen font-body antialiased">
     <a
       href="#contenido-principal"
-      class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-stellar focus:text-lumen focus:px-4 focus:py-2 focus:rounded"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-flare focus:text-void focus:px-4 focus:py-2 focus:rounded"
     >
       Saltar al contenido principal
     </a>

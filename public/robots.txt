@@ -1,0 +1,6 @@
+# Permitimos que todos los buscadores indexen el sitio completo
+User-agent: *
+Allow: /
+
+# Mapa del sitio para rastreo más rápido
+Sitemap: https://portfolio-seven-hazel-24.vercel.app/sitemap-index.xml
