@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Starfield from './Starfield';
 import HeroSection from './sections/HeroSection';
 import AboutSection from './sections/AboutSection';
@@ -14,11 +14,45 @@ const SECCIONES = [
   { id: 'contacto', etiqueta: 'Transmisión', Componente: ContactSection },
 ];
 
+const DURACION_VIAJE = 800;
+const DURACION_FRENO = 400;
+const MULTIPLIER_MAX = 18;
+const MULTIPLIER_LERP = 0.04;
+
 export default function SpaceApp() {
   const [activa, setActiva] = useState('inicio');
+  const [fase, setFase] = useState('intro');
   const [menuAbierto, setMenuAbierto] = useState(false);
+  const [mostrarContenido, setMostrarContenido] = useState(false);
+
+  const multiplierRef = useRef(1);
+  const targetMultiplierRef = useRef(1);
+  const animFrameRef = useRef(0);
+
   const seccionActual = SECCIONES.find((s) => s.id === activa);
   const Contenido = seccionActual.Componente;
+
+  useEffect(() => {
+    targetMultiplierRef.current = MULTIPLIER_MAX;
+
+    const tFreno = window.setTimeout(() => {
+      setFase('frenando');
+      targetMultiplierRef.current = 1;
+    }, 600);
+
+    const tAterrizaje = window.setTimeout(() => {
+      setFase('aterrizando');
+      setMostrarContenido(true);
+
+      const tIdle = window.setTimeout(() => setFase('idle'), 900);
+      return () => window.clearTimeout(tIdle);
+    }, 1000);
+
+    return () => {
+      window.clearTimeout(tFreno);
+      window.clearTimeout(tAterrizaje);
+    };
+  }, []);
 
   useEffect(() => {
     if (!menuAbierto) return;
@@ -29,16 +63,53 @@ export default function SpaceApp() {
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [menuAbierto]);
 
-  const irA = (id) => {
+  useEffect(() => {
+    const tick = () => {
+      const current = multiplierRef.current;
+      const target = targetMultiplierRef.current;
+      multiplierRef.current = current + (target - current) * MULTIPLIER_LERP;
+      if (Math.abs(multiplierRef.current - target) < 0.01) {
+        multiplierRef.current = target;
+      }
+      animFrameRef.current = requestAnimationFrame(tick);
+    };
+    animFrameRef.current = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(animFrameRef.current);
+  }, []);
+
+  const irA = useCallback((id) => {
+    if (id === activa || fase !== 'idle') return;
     setMenuAbierto(false);
-    setActiva(id);
-  };
+    setFase('viajando');
+    targetMultiplierRef.current = MULTIPLIER_MAX;
+    setMostrarContenido(false);
+
+    setTimeout(() => {
+      setFase('frenando');
+      targetMultiplierRef.current = 1;
+    }, DURACION_VIAJE);
+
+    setTimeout(() => {
+      setActiva(id);
+      setFase('aterrizando');
+      setMostrarContenido(true);
+
+      setTimeout(() => setFase('idle'), 900);
+    }, DURACION_VIAJE + DURACION_FRENO);
+  }, [activa, fase]);
 
   return (
     <div className="relative min-h-screen overflow-hidden">
-      <Starfield />
+      <Starfield velocityMultiplierRef={multiplierRef} />
 
-      <header className="fixed inset-x-0 top-0 z-20 border-b border-surface/80 bg-void/70 backdrop-blur-md">
+      <header
+        className="fixed inset-x-0 top-0 z-20 border-b border-surface/80 bg-void/70 backdrop-blur-md"
+        style={{
+          opacity: fase === 'idle' || fase === 'aterrizando' ? 1 : 0,
+          transform: fase === 'idle' || fase === 'aterrizando' ? 'translateY(0)' : 'translateY(-8px)',
+          transition: 'opacity 0.3s ease-out, transform 0.3s ease-out',
+        }}
+      >
         <div className="mx-auto max-w-6xl px-4 py-2">
           <div className="flex items-center justify-between gap-4">
             <button
@@ -146,7 +217,10 @@ export default function SpaceApp() {
         id="contenido-principal"
         className="relative z-10 mx-auto flex min-h-screen max-w-6xl px-4 pt-28 pb-12 md:pt-32"
       >
-        <div className="m-auto w-full">
+        <div
+          className="m-auto w-full transition-opacity duration-300"
+          style={{ opacity: mostrarContenido ? 1 : 0 }}
+        >
           <Contenido key={activa} irA={irA} />
         </div>
       </main>
