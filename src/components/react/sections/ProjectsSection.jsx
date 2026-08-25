@@ -3,11 +3,13 @@ import projects from '../../../data/projects.json';
 
 const ESQUELETO = [0, 1, 2, 3];
 
-function TarjetaEsqueleto() {
+function TarjetaEsqueleto({ ocultoEnMobile = false }) {
   return (
     <li
       aria-hidden="true"
-      className="relative overflow-hidden rounded-lg border border-surface/80 bg-abyss/70 p-6"
+      className={`relative overflow-hidden rounded-lg border border-surface/80 bg-abyss/70 p-6 ${
+        ocultoEnMobile ? 'hidden sm:block' : ''
+      }`}
     >
       <div className="space-y-3">
         <div className="h-5 w-1/2 rounded bg-surface/80" />
@@ -54,7 +56,7 @@ export default function ProjectsSection() {
       {cargando ? (
         <ul className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2">
           {ESQUELETO.map((i) => (
-            <TarjetaEsqueleto key={i} />
+            <TarjetaEsqueleto key={i} ocultoEnMobile={i >= 2} />
           ))}
         </ul>
       ) : (
