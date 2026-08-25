@@ -2,7 +2,7 @@ import profile from '../../../data/profile.json';
 
 export default function HeroSection({ irA }) {
   return (
-    <section aria-labelledby="titulo-hero" className="w-full">
+    <section aria-labelledby="titulo-hero" className="-mt-12 w-full md:-mt-16">
       <p className="animate-aterrizaje flex items-center gap-2.5 font-hud text-xs uppercase tracking-[0.4em] text-flare">
         <span
           aria-hidden="true"
@@ -13,26 +13,26 @@ export default function HeroSection({ irA }) {
       <h1
         id="titulo-hero"
         className="animate-aterrizaje mt-5 font-display text-5xl font-bold uppercase tracking-wide text-lumen sm:text-7xl"
-        style={{ animationDelay: '120ms' }}
+        style={{ animationDelay: '100ms' }}
       >
         {profile.nombre}
       </h1>
       <p
         className="animate-aterrizaje mt-3 font-hud text-lg text-flare sm:text-2xl"
-        style={{ animationDelay: '240ms' }}
+        style={{ animationDelay: '280ms' }}
       >
         {`< ${profile.rol} />`}
       </p>
       <p
         className="animate-aterrizaje mt-6 max-w-xl leading-relaxed text-ash"
-        style={{ animationDelay: '360ms' }}
+        style={{ animationDelay: '420ms' }}
       >
         Bienvenida, tripulante. Este es mi rincón del universo: explorá mis
         misiones completadas y mi arsenal de tecnologías.
       </p>
       <div
         className="animate-aterrizaje mt-10 flex flex-wrap gap-4"
-        style={{ animationDelay: '480ms' }}
+        style={{ animationDelay: '600ms' }}
       >
         <button
           type="button"

@@ -13,13 +13,13 @@ export default function AboutSection() {
       <h2
         id="titulo-about"
         className="animate-aterrizaje mt-5 font-display text-4xl font-bold uppercase tracking-wide text-lumen sm:text-5xl"
-        style={{ animationDelay: '120ms' }}
+        style={{ animationDelay: '80ms' }}
       >
         Sobre mí
       </h2>
       <div
         className="animate-aterrizaje mt-10 max-w-2xl space-y-6 leading-relaxed text-ash"
-        style={{ animationDelay: '240ms' }}
+        style={{ animationDelay: '220ms' }}
       >
         <p>{profile.bio}</p>
         <p>
@@ -31,13 +31,13 @@ export default function AboutSection() {
       </div>
       <h3
         className="animate-aterrizaje mt-10 max-w-2xl font-hud text-xs uppercase tracking-widest text-ash"
-        style={{ animationDelay: '360ms' }}
+        style={{ animationDelay: '400ms' }}
       >
         Formación
       </h3>
       <ul
         className="animate-aterrizaje mt-3 max-w-2xl space-y-3"
-        style={{ animationDelay: '420ms' }}
+        style={{ animationDelay: '500ms' }}
       >
         {profile.formacion.map((f) => (
           <li
@@ -53,7 +53,7 @@ export default function AboutSection() {
       </ul>
       <dl
         className="animate-aterrizaje mt-10 grid max-w-2xl grid-cols-1 gap-4 sm:grid-cols-3"
-        style={{ animationDelay: '540ms' }}
+        style={{ animationDelay: '680ms' }}
       >
         <div className="rounded border border-surface/80 bg-abyss/60 p-4">
           <dt className="font-hud text-[11px] uppercase tracking-widest text-ash">

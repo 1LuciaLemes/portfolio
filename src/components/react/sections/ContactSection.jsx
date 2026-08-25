@@ -31,13 +31,13 @@ export default function ContactSection() {
       <h2
         id="titulo-contacto"
         className="animate-aterrizaje mt-5 font-display text-4xl font-bold uppercase tracking-wide text-lumen sm:text-5xl"
-        style={{ animationDelay: '120ms' }}
+        style={{ animationDelay: '80ms' }}
       >
         Contacto
       </h2>
       <p
         className="animate-aterrizaje mt-6 max-w-xl leading-relaxed text-ash"
-        style={{ animationDelay: '240ms' }}
+        style={{ animationDelay: '260ms' }}
       >
         ¿Tenés una misión para mí o querés coordinar un despegue? Elegí un canal
         y establezcamos comunicación.
@@ -47,7 +47,7 @@ export default function ContactSection() {
           <li
             key={c.etiqueta}
             className="animate-aterrizaje"
-            style={{ animationDelay: `${360 + i * 100}ms` }}
+            style={{ animationDelay: `${420 + i * 160}ms` }}
           >
             {c.activo ? (
               <a

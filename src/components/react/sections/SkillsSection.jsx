@@ -21,7 +21,7 @@ export default function SkillsSection() {
       <h2
         id="titulo-skills"
         className="animate-aterrizaje mt-5 font-display text-4xl font-bold uppercase tracking-wide text-lumen sm:text-5xl"
-        style={{ animationDelay: '120ms' }}
+        style={{ animationDelay: '80ms' }}
       >
         Habilidades
       </h2>
@@ -30,7 +30,7 @@ export default function SkillsSection() {
           <div
             key={grupo.clave}
             className="animate-aterrizaje"
-            style={{ animationDelay: `${240 + i * 100}ms` }}
+            style={{ animationDelay: `${200 + i * 140}ms` }}
           >
             <h3 className="font-hud text-xs uppercase tracking-widest text-ash">
               {grupo.etiqueta}

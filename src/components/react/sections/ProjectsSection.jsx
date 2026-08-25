@@ -46,7 +46,7 @@ export default function ProjectsSection() {
       <h2
         id="titulo-proyectos"
         className="animate-aterrizaje mt-5 font-display text-4xl font-bold uppercase tracking-wide text-lumen sm:text-5xl"
-        style={{ animationDelay: '120ms' }}
+        style={{ animationDelay: '80ms' }}
       >
         Proyectos seleccionados
       </h2>
@@ -66,7 +66,7 @@ export default function ProjectsSection() {
               key={p.titulo}
               data-cursor="encuadre"
               className="animate-aterrizaje group rounded-lg border border-surface/80 bg-abyss/60 p-6 transition-all duration-500 hover:border-stellar/50 hover:shadow-[inset_4px_0_16px_-8px_rgba(224,82,82,0.55),0_0_36px_rgba(184,50,60,0.12)]"
-              style={{ animationDelay: `${i * 120}ms` }}
+              style={{ animationDelay: `${180 + i * 180}ms` }}
             >
               <article>
                 <h3 className="font-display text-xl font-semibold tracking-wide text-lumen transition-colors duration-500 group-hover:text-flare">
