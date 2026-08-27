@@ -105,9 +105,17 @@ export default function SpaceApp() {
       <header
         className="fixed inset-x-0 top-0 z-20 border-b border-surface/80 bg-void/70 backdrop-blur-md"
         style={{
-          opacity: fase === 'idle' || fase === 'aterrizando' ? 1 : 0,
-          transform: fase === 'idle' || fase === 'aterrizando' ? 'translateY(0)' : 'translateY(-8px)',
-          transition: 'opacity 0.3s ease-out, transform 0.3s ease-out',
+          opacity:
+            fase === 'idle' || fase === 'aterrizando' ? 1 : fase === 'viajando' ? 0 : 1,
+          transform:
+            fase === 'idle' || fase === 'aterrizando'
+              ? 'translateY(0)'
+              : fase === 'viajando'
+                ? 'translateY(-86px)'
+                : 'translateY(-12px)',
+          filter: fase === 'viajando' ? 'blur(8px)' : 'blur(0px)',
+          transition:
+            'opacity 0.7s ease-in, transform 0.7s cubic-bezier(0.55, 0, 1, 0.45), filter 0.5s ease-in',
         }}
       >
         <div className="mx-auto max-w-6xl px-4 py-2">
@@ -215,11 +223,25 @@ export default function SpaceApp() {
 
       <main
         id="contenido-principal"
-        className="relative z-10 mx-auto flex min-h-screen max-w-6xl px-4 pt-28 pb-12 md:pt-32"
+        className={`relative z-10 mx-auto flex min-h-screen max-w-6xl px-4 pt-28 pb-12 md:pt-32 ${
+          fase === 'frenando' || fase === 'viajando' || fase === 'intro'
+            ? 'overflow-hidden'
+            : 'overflow-visible'
+        }`}
       >
         <div
-          className="m-auto w-full transition-opacity duration-300"
-          style={{ opacity: mostrarContenido ? 1 : 0 }}
+          className="m-auto w-full"
+          style={{
+            opacity: mostrarContenido ? 1 : 0,
+            transform:
+              !mostrarContenido && fase === 'viajando'
+                ? 'translateY(46vh) scale(0.8)'
+                : 'translateY(0) scale(1)',
+            filter: !mostrarContenido && fase === 'viajando' ? 'blur(14px)' : 'blur(0px)',
+            transition:
+              'opacity 0.28s ease-in, transform 0.7s cubic-bezier(0.55, 0, 1, 0.45), filter 0.65s ease-in',
+            pointerEvents: mostrarContenido ? 'auto' : 'none',
+          }}
         >
           <Contenido key={activa} irA={irA} />
         </div>
