@@ -100,23 +100,47 @@ export default function SpaceApp() {
 
   return (
     <div className="relative min-h-screen overflow-hidden">
-      <Starfield velocityMultiplierRef={multiplierRef} />
+      <div
+        className={`pointer-events-none fixed inset-0 z-0 ${
+          fase === 'frenando' ? 'animate-temblor-frenado' : ''
+        }`}
+      >
+        <Starfield velocityMultiplierRef={multiplierRef} />
+      </div>
+
+      {/* Vignette de frenado */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0 z-30"
+        style={{
+          boxShadow:
+            fase === 'frenando'
+              ? 'inset 0 0 180px 60px rgba(0, 0, 0, 0.85)'
+              : 'inset 0 0 60px 20px rgba(0, 0, 0, 0.35)',
+          opacity: fase === 'frenando' || fase === 'aterrizando' ? 1 : 0,
+          transition: 'box-shadow 0.6s ease-out, opacity 0.6s ease-out',
+        }}
+      />
 
       <header
-        className="fixed inset-x-0 top-0 z-20 border-b border-surface/80 bg-void/70 backdrop-blur-md"
-        style={{
-          opacity:
-            fase === 'idle' || fase === 'aterrizando' ? 1 : fase === 'viajando' ? 0 : 1,
-          transform:
-            fase === 'idle' || fase === 'aterrizando'
-              ? 'translateY(0)'
-              : fase === 'viajando'
-                ? 'translateY(-86px)'
-                : 'translateY(-12px)',
-          filter: fase === 'viajando' ? 'blur(8px)' : 'blur(0px)',
-          transition:
-            'opacity 0.7s ease-in, transform 0.7s cubic-bezier(0.55, 0, 1, 0.45), filter 0.5s ease-in',
-        }}
+        key={fase === 'viajando' ? 'viajando' : fase === 'intro' ? 'intro' : 'visible'}
+        className={`fixed inset-x-0 top-0 z-20 border-b border-surface/80 bg-void/70 backdrop-blur-md ${
+          fase === 'frenando' || fase === 'aterrizando' || fase === 'idle'
+            ? 'animate-navbar-entrada'
+            : ''
+        }`}
+        style={
+          fase === 'frenando' || fase === 'aterrizando' || fase === 'idle'
+            ? undefined
+            : {
+                opacity: fase === 'viajando' || fase === 'intro' ? 0 : 1,
+                transform:
+                  fase === 'viajando' || fase === 'intro'
+                    ? 'translateY(-86px)'
+                    : 'translateY(0)',
+                transition: 'opacity 0.7s ease-in, transform 0.7s cubic-bezier(0.55, 0, 1, 0.45)',
+              }
+        }
       >
         <div className="mx-auto max-w-6xl px-4 py-2">
           <div className="flex items-center justify-between gap-4">
@@ -224,13 +248,18 @@ export default function SpaceApp() {
       <main
         id="contenido-principal"
         className={`relative z-10 mx-auto flex min-h-screen max-w-6xl px-4 pt-28 pb-12 md:pt-32 ${
-          fase === 'frenando' || fase === 'viajando' || fase === 'intro'
+          fase === 'frenando' ||
+          fase === 'viajando' ||
+          fase === 'intro' ||
+          fase === 'aterrizando'
             ? 'overflow-hidden'
             : 'overflow-visible'
         }`}
       >
         <div
-          className="m-auto w-full"
+          className={`m-auto w-full ${
+            fase === 'aterrizando' ? 'animate-aterrizaje-bloque' : ''
+          }`}
           style={{
             opacity: mostrarContenido ? 1 : 0,
             transform:
@@ -239,7 +268,9 @@ export default function SpaceApp() {
                 : 'translateY(0) scale(1)',
             filter: !mostrarContenido && fase === 'viajando' ? 'blur(14px)' : 'blur(0px)',
             transition:
-              'opacity 0.28s ease-in, transform 0.7s cubic-bezier(0.55, 0, 1, 0.45), filter 0.65s ease-in',
+              fase === 'aterrizando'
+                ? 'none'
+                : 'opacity 0.28s ease-in, transform 0.7s cubic-bezier(0.55, 0, 1, 0.45), filter 0.65s ease-in',
             pointerEvents: mostrarContenido ? 'auto' : 'none',
           }}
         >
