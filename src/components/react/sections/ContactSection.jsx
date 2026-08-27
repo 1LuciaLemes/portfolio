@@ -21,7 +21,7 @@ export default function ContactSection() {
 
   return (
     <section aria-labelledby="titulo-contacto" className="w-full">
-      <p className="animate-aterrizaje flex items-center gap-2.5 font-hud text-xs uppercase tracking-[0.4em] text-flare">
+      <p className="flex items-center gap-2.5 font-hud text-xs uppercase tracking-[0.4em] text-flare">
         <span
           aria-hidden="true"
           className="h-1 w-1 rounded-full bg-flare shadow-[0_0_10px_rgba(224,82,82,0.9)]"
@@ -30,25 +30,17 @@ export default function ContactSection() {
       </p>
       <h2
         id="titulo-contacto"
-        className="animate-aterrizaje mt-5 font-display text-4xl font-bold uppercase tracking-wide text-lumen sm:text-5xl"
-        style={{ animationDelay: '80ms' }}
+        className="mt-5 font-display text-4xl font-bold uppercase tracking-wide text-lumen sm:text-5xl"
       >
         Contacto
       </h2>
-      <p
-        className="animate-aterrizaje mt-6 max-w-xl leading-relaxed text-ash"
-        style={{ animationDelay: '260ms' }}
-      >
+      <p className="mt-6 max-w-xl leading-relaxed text-ash">
         ¿Tenés una misión para mí o querés coordinar un despegue? Elegí un canal
         y establezcamos comunicación.
       </p>
       <ul className="mt-10 flex flex-wrap gap-4">
-        {canales.map((c, i) => (
-          <li
-            key={c.etiqueta}
-            className="animate-aterrizaje"
-            style={{ animationDelay: `${420 + i * 160}ms` }}
-          >
+        {canales.map((c) => (
+          <li key={c.etiqueta}>
             {c.activo ? (
               <a
                 href={c.url}

@@ -36,7 +36,7 @@ export default function ProjectsSection() {
 
   return (
     <section aria-labelledby="titulo-proyectos" aria-busy={cargando} className="w-full">
-      <p className="animate-aterrizaje flex items-center gap-2.5 font-hud text-xs uppercase tracking-[0.4em] text-flare">
+      <p className="flex items-center gap-2.5 font-hud text-xs uppercase tracking-[0.4em] text-flare">
         <span
           aria-hidden="true"
           className="h-1 w-1 rounded-full bg-flare shadow-[0_0_10px_rgba(224,82,82,0.9)]"
@@ -45,8 +45,7 @@ export default function ProjectsSection() {
       </p>
       <h2
         id="titulo-proyectos"
-        className="animate-aterrizaje mt-5 font-display text-4xl font-bold uppercase tracking-wide text-lumen sm:text-5xl"
-        style={{ animationDelay: '80ms' }}
+        className="mt-5 font-display text-4xl font-bold uppercase tracking-wide text-lumen sm:text-5xl"
       >
         Proyectos seleccionados
       </h2>
@@ -61,12 +60,11 @@ export default function ProjectsSection() {
         </ul>
       ) : (
         <ul className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2">
-          {projects.map((p, i) => (
+          {projects.map((p) => (
             <li
               key={p.titulo}
               data-cursor="encuadre"
-              className="animate-aterrizaje group rounded-lg border border-surface/80 bg-abyss/60 p-6 transition-all duration-500 hover:border-stellar/50 hover:shadow-[inset_4px_0_16px_-8px_rgba(224,82,82,0.55),0_0_36px_rgba(184,50,60,0.12)]"
-              style={{ animationDelay: `${180 + i * 180}ms` }}
+              className="group rounded-lg border border-surface/80 bg-abyss/60 p-6 transition-all duration-500 hover:border-stellar/50 hover:shadow-[inset_4px_0_16px_-8px_rgba(224,82,82,0.55),0_0_36px_rgba(184,50,60,0.12)]"
             >
               <article>
                 <h3 className="font-display text-xl font-semibold tracking-wide text-lumen transition-colors duration-500 group-hover:text-flare">

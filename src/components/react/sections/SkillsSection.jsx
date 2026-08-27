@@ -11,7 +11,7 @@ const GRUPOS = [
 export default function SkillsSection() {
   return (
     <section aria-labelledby="titulo-skills" className="w-full">
-      <p className="animate-aterrizaje flex items-center gap-2.5 font-hud text-xs uppercase tracking-[0.4em] text-flare">
+      <p className="flex items-center gap-2.5 font-hud text-xs uppercase tracking-[0.4em] text-flare">
         <span
           aria-hidden="true"
           className="h-1 w-1 rounded-full bg-flare shadow-[0_0_10px_rgba(224,82,82,0.9)]"
@@ -20,18 +20,13 @@ export default function SkillsSection() {
       </p>
       <h2
         id="titulo-skills"
-        className="animate-aterrizaje mt-5 font-display text-4xl font-bold uppercase tracking-wide text-lumen sm:text-5xl"
-        style={{ animationDelay: '80ms' }}
+        className="mt-5 font-display text-4xl font-bold uppercase tracking-wide text-lumen sm:text-5xl"
       >
         Habilidades
       </h2>
       <div className="mt-10 space-y-8">
-        {GRUPOS.map((grupo, i) => (
-          <div
-            key={grupo.clave}
-            className="animate-aterrizaje"
-            style={{ animationDelay: `${200 + i * 140}ms` }}
-          >
+        {GRUPOS.map((grupo) => (
+          <div key={grupo.clave}>
             <h3 className="font-hud text-xs uppercase tracking-widest text-ash">
               {grupo.etiqueta}
             </h3>

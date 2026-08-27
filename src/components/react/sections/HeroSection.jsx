@@ -3,7 +3,7 @@ import profile from '../../../data/profile.json';
 export default function HeroSection({ irA }) {
   return (
     <section aria-labelledby="titulo-hero" className="-mt-12 w-full md:-mt-16">
-      <p className="animate-aterrizaje flex items-center gap-2.5 font-hud text-xs uppercase tracking-[0.4em] text-flare">
+      <p className="flex items-center gap-2.5 font-hud text-xs uppercase tracking-[0.4em] text-flare">
         <span
           aria-hidden="true"
           className="h-1 w-1 rounded-full bg-flare shadow-[0_0_10px_rgba(224,82,82,0.9)]"
@@ -12,28 +12,18 @@ export default function HeroSection({ irA }) {
       </p>
       <h1
         id="titulo-hero"
-        className="animate-aterrizaje mt-5 font-display text-5xl font-bold uppercase tracking-wide text-lumen sm:text-7xl"
-        style={{ animationDelay: '100ms' }}
+        className="mt-5 font-display text-5xl font-bold uppercase tracking-wide text-lumen sm:text-7xl"
       >
         {profile.nombre}
       </h1>
-      <p
-        className="animate-aterrizaje mt-3 font-hud text-lg text-flare sm:text-2xl"
-        style={{ animationDelay: '280ms' }}
-      >
+      <p className="mt-3 font-hud text-lg text-flare sm:text-2xl">
         {`< ${profile.rol} />`}
       </p>
-      <p
-        className="animate-aterrizaje mt-6 max-w-xl leading-relaxed text-ash"
-        style={{ animationDelay: '420ms' }}
-      >
+      <p className="mt-6 max-w-xl leading-relaxed text-ash">
         Bienvenida, tripulante. Este es mi rincón del universo: explorá mis
         misiones completadas y mi arsenal de tecnologías.
       </p>
-      <div
-        className="animate-aterrizaje mt-10 flex flex-wrap gap-4"
-        style={{ animationDelay: '600ms' }}
-      >
+      <div className="mt-10 flex flex-wrap gap-4">
         <button
           type="button"
           onClick={() => irA('proyectos')}
