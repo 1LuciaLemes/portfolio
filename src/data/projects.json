@@ -5,7 +5,7 @@
     "tecnologias": ["React", "TypeScript", "Vite", "Tailwind CSS", "React Router", "Firebase", "APIs REST", "Vitest"],
     "demo": "https://main-eta-jet.vercel.app",
     "repo": "https://github.com/Globallink-Studio/Frontend-Globalance",
-    "imagen": ""
+    "imagen": "/proyectos/globalance.jpg"
   },
   {
     "titulo": "Ecommerce de perfumes",
@@ -13,7 +13,7 @@
     "tecnologias": ["React", "JavaScript", "React Router", "Firebase", "Amazon S3"],
     "demo": "https://proyecto-m5-lucia-lemes.vercel.app",
     "repo": "https://github.com/1LuciaLemes/ProyectoM5_LuciaLemes",
-    "imagen": ""
+    "imagen": "/proyectos/ecommerce.jpg"
   },
   {
     "titulo": "Chat IA — Google Gemini",
@@ -21,6 +21,6 @@
     "tecnologias": ["JavaScript", "Google Gemini AI", "Vercel Functions", "Vitest"],
     "demo": "https://proyecto-m3-lucia-lemes.vercel.app",
     "repo": "https://github.com/1LuciaLemes/ProyectoM3_LuciaLemes",
-    "imagen": ""
+    "imagen": "/proyectos/chat.jpg"
   }
 ]
