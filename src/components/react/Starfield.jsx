@@ -44,11 +44,12 @@ export default function Starfield({ velocityMultiplierRef }) {
       const cx = window.innerWidth * 0.85;
       const cy = window.innerHeight * 0.18;
       const radioBase = Math.max(window.innerWidth, window.innerHeight) * 0.38;
-      const escala = 1 + (mult - 1) * 0.025;
+      const rapidez = Math.abs(mult);
+      const escala = Math.max(1 + (rapidez - 1) * 0.025, 0.05);
       const radio = radioBase * escala;
 
       const halo = ctx.createRadialGradient(cx, cy, 0, cx, cy, radio);
-      const intensidad = Math.min(0.16 + (mult - 1) * 0.008, 0.4);
+      const intensidad = Math.min(0.16 + (rapidez - 1) * 0.008, 0.4);
       halo.addColorStop(0, `rgba(224, 82, 82, ${intensidad})`);
       halo.addColorStop(0.25, `rgba(184, 50, 60, ${intensidad * 0.44})`);
       halo.addColorStop(0.6, `rgba(110, 31, 38, ${intensidad * 0.19})`);
@@ -56,16 +57,16 @@ export default function Starfield({ velocityMultiplierRef }) {
       ctx.fillStyle = halo;
       ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
 
-      const freqPulso = 0.8 + (mult - 1) * 0.15;
+      const freqPulso = 0.8 + (rapidez - 1) * 0.15;
       const pulso = reduceMotion ? 1 : 1 + Math.sin(tiempo * freqPulso) * 0.12;
 
-      const radioNucleo = (3 + mult * 0.5) * pulso;
+      const radioNucleo = Math.max(3 + rapidez * 0.5, 0.5) * pulso;
       ctx.beginPath();
       ctx.arc(cx, cy, radioNucleo, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(240, 150, 150, ${0.55 * pulso})`;
       ctx.fill();
 
-      const radioBrillo = 1.2 + mult * 0.15;
+      const radioBrillo = Math.max(1.2 + rapidez * 0.15, 0.6);
       ctx.beginPath();
       ctx.arc(cx, cy, radioBrillo, 0, Math.PI * 2);
       ctx.fillStyle = 'rgba(255, 220, 215, 0.95)';
@@ -77,7 +78,7 @@ export default function Starfield({ velocityMultiplierRef }) {
       const h = window.innerHeight;
       const mult = velocityMultiplierRef.current;
 
-      ctx.fillStyle = `rgba(9, 7, 8, ${mult > 3 ? 0.25 : 0.4})`;
+      ctx.fillStyle = `rgba(9, 7, 8, ${Math.abs(mult) > 3 ? 0.25 : 0.4})`;
       ctx.fillRect(0, 0, w, h);
       tiempo += 0.016;
 
@@ -92,14 +93,16 @@ export default function Starfield({ velocityMultiplierRef }) {
         const drawAlpha = e.roja ? alpha : alpha * 0.85;
         const color = e.roja ? '224, 140, 140' : '231, 216, 200';
 
-        if (!reduceMotion && mult > 3) {
-          const longitud = Math.min(mult * 4, 60);
-          const gradiente = ctx.createLinearGradient(e.x, e.y, e.x, e.y + longitud);
+        if (!reduceMotion && Math.abs(mult) > 3) {
+          const direccion = mult >= 0 ? 1 : -1;
+          const longitud = Math.min(Math.abs(mult) * 4, 60);
+          const yInicio = direccion === 1 ? e.y : e.y - longitud;
+          const gradiente = ctx.createLinearGradient(e.x, yInicio, e.x, yInicio + direccion * longitud);
           gradiente.addColorStop(0, `rgba(${color}, ${drawAlpha})`);
           gradiente.addColorStop(1, `rgba(${color}, 0)`);
           ctx.beginPath();
-          ctx.moveTo(e.x, e.y);
-          ctx.lineTo(e.x, e.y + longitud);
+          ctx.moveTo(e.x, yInicio);
+          ctx.lineTo(e.x, yInicio + direccion * longitud);
           ctx.strokeStyle = gradiente;
           ctx.lineWidth = e.radio * 0.8;
           ctx.stroke();
@@ -114,6 +117,9 @@ export default function Starfield({ velocityMultiplierRef }) {
           e.y -= e.velocidadDrift * mult;
           if (e.y < -60) {
             e.y = h + 2;
+            e.x = Math.random() * w;
+          } else if (e.y > h + 60) {
+            e.y = -2;
             e.x = Math.random() * w;
           }
         }
