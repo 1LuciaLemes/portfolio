@@ -7,11 +7,11 @@ import ProjectsSection from './sections/ProjectsSection';
 import ContactSection from './sections/ContactSection';
 
 const SECCIONES = [
-  { id: 'inicio', etiqueta: 'Base de Control', Componente: HeroSection },
-  { id: 'sobre-mi', etiqueta: 'Expediente', Componente: AboutSection },
-  { id: 'habilidades', etiqueta: 'Arsenal', Componente: SkillsSection },
-  { id: 'proyectos', etiqueta: 'Bitácora', Componente: ProjectsSection },
-  { id: 'contacto', etiqueta: 'Transmisión', Componente: ContactSection },
+  { id: 'inicio', etiqueta: 'Base de Control', contexto: 'Base de Control · En línea', Componente: HeroSection },
+  { id: 'proyectos', etiqueta: 'Bitácora', contexto: 'Bitácora · Misiones completadas', Componente: ProjectsSection },
+  { id: 'sobre-mi', etiqueta: 'Expediente', contexto: 'Expediente · Perfil de misión', Componente: AboutSection },
+  { id: 'habilidades', etiqueta: 'Arsenal', contexto: 'Arsenal · Módulos instalados', Componente: SkillsSection },
+  { id: 'contacto', etiqueta: 'Transmisión', contexto: 'Transmisión · Señal abierta', Componente: ContactSection },
 ];
 
 const DURACION_VIAJE = 800;
@@ -28,9 +28,159 @@ export default function SpaceApp() {
   const multiplierRef = useRef(1);
   const targetMultiplierRef = useRef(1);
   const animFrameRef = useRef(0);
+  const contenedorRef = useRef(null);
+  const navbarRef = useRef(null);
+  const scrollThumbRef = useRef(null);
+  const scrollThumbBarRef = useRef(null);
+  const [scrollVisible, setScrollVisible] = useState(false);
 
   const seccionActual = SECCIONES.find((s) => s.id === activa);
   const Contenido = seccionActual.Componente;
+  const indiceActiva = SECCIONES.findIndex((s) => s.id === activa);
+
+  const irA = useCallback((id) => {
+    if (id === activa || fase !== 'idle') return;
+    const indiceDestino = SECCIONES.findIndex((s) => s.id === id);
+    const direccion = indiceDestino - indiceActiva;
+    setMenuAbierto(false);
+    setFase('viajando');
+    targetMultiplierRef.current = (direccion > 0 ? 1 : -1) * MULTIPLIER_MAX;
+    setMostrarContenido(false);
+
+    setTimeout(() => {
+      setFase('frenando');
+      targetMultiplierRef.current = 1;
+    }, DURACION_VIAJE);
+
+    setTimeout(() => {
+      setActiva(id);
+      setFase('aterrizando');
+      setMostrarContenido(true);
+
+      setTimeout(() => setFase('idle'), 900);
+    }, DURACION_VIAJE + DURACION_FRENO);
+  }, [activa, fase]);
+
+  const navegar = useCallback(
+    (dir) => {
+      const nuevo = indiceActiva + dir;
+      if (nuevo < 0 || nuevo >= SECCIONES.length) return;
+      irA(SECCIONES[nuevo].id);
+    },
+    [indiceActiva, irA],
+  );
+
+  const UMBRAL_RUEDA = 48;
+  useEffect(() => {
+    const contenedor = contenedorRef.current;
+    if (!contenedor) return;
+
+    let touchInicioY = 0;
+    let deltaAcumulado = 0;
+    let reinicioDelta = 0;
+
+    const desecharAcumulador = () => {
+      deltaAcumulado = 0;
+      window.clearTimeout(reinicioDelta);
+    };
+
+    const engranarReset = () => {
+      window.clearTimeout(reinicioDelta);
+      reinicioDelta = window.setTimeout(() => {
+        deltaAcumulado = 0;
+      }, 150);
+    };
+
+    const scrolleableDescendiente = (desde, dir) => {
+      let el = desde;
+      while (el && el !== contenedor) {
+        const restante = el.scrollHeight - el.clientHeight;
+        if (restante > 2) {
+          if (dir > 0 && el.scrollTop < restante - 1) return el;
+          if (dir < 0 && el.scrollTop > 1) return el;
+        }
+        el = el.parentElement;
+      }
+      return null;
+    };
+
+    const handleWheel = (e) => {
+      if (faseRef.current !== 'idle') {
+        desecharAcumulador();
+        return;
+      }
+      const disp = e.deltaY;
+      const enTope = contenedor.scrollTop <= 0;
+      const enFondo =
+        contenedor.scrollHeight - contenedor.scrollTop - contenedor.clientHeight < 4;
+
+      if (disp > 0) {
+        if (scrolleableDescendiente(e.target, 1)) return;
+        if (!enFondo) return;
+        if (deltaAcumulado < 0) deltaAcumulado = 0;
+        deltaAcumulado += disp;
+        engranarReset();
+        if (deltaAcumulado >= UMBRAL_RUEDA) {
+          desecharAcumulador();
+          e.preventDefault();
+          navegarRef.current(1);
+        }
+      } else if (disp < 0) {
+        if (scrolleableDescendiente(e.target, -1)) return;
+        if (!enTope) return;
+        if (deltaAcumulado > 0) deltaAcumulado = 0;
+        deltaAcumulado += disp;
+        engranarReset();
+        if (deltaAcumulado <= -UMBRAL_RUEDA) {
+          desecharAcumulador();
+          e.preventDefault();
+          navegarRef.current(-1);
+        }
+      }
+    };
+
+    const handleTouchStart = (e) => {
+      touchInicioY = e.touches[0].clientY;
+    };
+
+    const handleTouchEnd = (e) => {
+      if (faseRef.current !== 'idle') return;
+      const dy = touchInicioY - e.changedTouches[0].clientY;
+      const UMBRAL = 48;
+      const enTope = contenedor.scrollTop <= 0;
+      const enFondo =
+        contenedor.scrollHeight - contenedor.scrollTop - contenedor.clientHeight < 4;
+
+      if (dy > UMBRAL) {
+        if (scrolleableDescendiente(e.target, 1)) return;
+        if (enFondo) navegarRef.current(1);
+      } else if (dy < -UMBRAL) {
+        if (scrolleableDescendiente(e.target, -1)) return;
+        if (enTope) navegarRef.current(-1);
+      }
+    };
+
+    contenedor.addEventListener('wheel', handleWheel, { passive: false });
+    contenedor.addEventListener('touchstart', handleTouchStart, { passive: true });
+    contenedor.addEventListener('touchend', handleTouchEnd, { passive: true });
+
+    return () => {
+      desecharAcumulador();
+      contenedor.removeEventListener('wheel', handleWheel);
+      contenedor.removeEventListener('touchstart', handleTouchStart);
+      contenedor.removeEventListener('touchend', handleTouchEnd);
+    };
+  }, []);
+
+  const faseRef = useRef(fase);
+  useEffect(() => {
+    faseRef.current = fase;
+  }, [fase]);
+
+  const navegarRef = useRef(navegar);
+  useEffect(() => {
+    navegarRef.current = navegar;
+  }, [navegar]);
 
   useEffect(() => {
     targetMultiplierRef.current = MULTIPLIER_MAX;
@@ -77,26 +227,59 @@ export default function SpaceApp() {
     return () => cancelAnimationFrame(animFrameRef.current);
   }, []);
 
-  const irA = useCallback((id) => {
-    if (id === activa || fase !== 'idle') return;
-    setMenuAbierto(false);
-    setFase('viajando');
-    targetMultiplierRef.current = MULTIPLIER_MAX;
-    setMostrarContenido(false);
+  useEffect(() => {
+    const contenedor = contenedorRef.current;
+    const indicador = scrollThumbRef.current;
+    const barra = scrollThumbBarRef.current;
+    if (!contenedor || !indicador || !barra) return;
 
-    setTimeout(() => {
-      setFase('frenando');
-      targetMultiplierRef.current = 1;
-    }, DURACION_VIAJE);
+    const OCULTAR_TRAS = 1200;
+    let timeout = 0;
 
-    setTimeout(() => {
-      setActiva(id);
-      setFase('aterrizando');
-      setMostrarContenido(true);
+    const alturaNavbar = () =>
+      navbarRef.current ? navbarRef.current.offsetHeight : 0;
 
-      setTimeout(() => setFase('idle'), 900);
-    }, DURACION_VIAJE + DURACION_FRENO);
-  }, [activa, fase]);
+    const actualizar = () => {
+      const scrollTop = contenedor.scrollTop;
+      const scrollHeight = contenedor.scrollHeight;
+      const clientHeight = contenedor.clientHeight;
+      const scrolleable = scrollHeight - clientHeight;
+      const navAlt = alturaNavbar();
+      contenedor.style.setProperty('--altura-navbar', `${navAlt}px`);
+      const zonaVisible = Math.max(clientHeight - navAlt, 1);
+
+      const puedeScrollear = scrolleable > 4;
+      indicador.classList.toggle('es-scrolleable', puedeScrollear);
+
+      if (puedeScrollear) {
+        const altoThumb = Math.max((zonaVisible / scrollHeight) * zonaVisible, 28);
+        const top = (scrollTop / scrolleable) * (zonaVisible - altoThumb);
+        barra.style.height = `${altoThumb}px`;
+        barra.style.top = `${top}px`;
+      }
+    };
+
+    const mostrar = () => {
+      setScrollVisible(true);
+      window.clearTimeout(timeout);
+      timeout = window.setTimeout(() => setScrollVisible(false), OCULTAR_TRAS);
+    };
+
+    const onScroll = () => {
+      actualizar();
+      mostrar();
+    };
+
+    actualizar();
+    contenedor.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', actualizar);
+
+    return () => {
+      window.clearTimeout(timeout);
+      contenedor.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', actualizar);
+    };
+  }, [activa]);
 
   return (
     <div className="relative min-h-screen overflow-hidden">
@@ -123,6 +306,7 @@ export default function SpaceApp() {
       />
 
       <header
+        ref={navbarRef}
         key={fase === 'viajando' ? 'viajando' : fase === 'intro' ? 'intro' : 'visible'}
         className={`fixed inset-x-0 top-0 z-20 border-b border-surface/80 bg-void/70 backdrop-blur-md ${
           fase === 'frenando' || fase === 'aterrizando' || fase === 'idle'
@@ -144,17 +328,28 @@ export default function SpaceApp() {
       >
         <div className="mx-auto max-w-6xl px-4 py-2">
           <div className="flex items-center justify-between gap-4">
-            <button
-              type="button"
-              onClick={() => irA('inicio')}
-              className="flex min-h-11 items-center gap-2 font-hud text-xs font-semibold uppercase tracking-[0.3em] text-lumen transition-colors duration-300 hover:text-flare"
-            >
+            <div className="flex min-w-0 items-center gap-4">
+              <button
+                type="button"
+                onClick={() => irA('inicio')}
+                className="flex min-h-11 shrink-0 items-center gap-2 font-hud text-xs font-semibold uppercase tracking-[0.3em] text-lumen transition-colors duration-300 hover:text-flare"
+              >
+                <span
+                  aria-hidden="true"
+                  className="h-1.5 w-1.5 shrink-0 rounded-full bg-flare shadow-[0_0_10px_rgba(224,82,82,0.9)]"
+                />
+                <span className="shrink-0">LL · Orbital</span>
+              </button>
+
               <span
+                key={activa}
                 aria-hidden="true"
-                className="h-1.5 w-1.5 rounded-full bg-flare shadow-[0_0_10px_rgba(224,82,82,0.9)]"
-              />
-              LL · Orbital
-            </button>
+                className="hidden min-w-0 items-center gap-2 font-hud text-[11px] uppercase tracking-[0.25em] text-ash md:flex"
+              >
+                <span className="h-1 w-1 shrink-0 rounded-full bg-stellar" />
+                <span className="truncate">{seccionActual.contexto}</span>
+              </span>
+            </div>
 
             <nav
               aria-label="Navegación de secciones"
@@ -246,35 +441,46 @@ export default function SpaceApp() {
       </header>
 
       <main
+        ref={contenedorRef}
         id="contenido-principal"
-        className={`relative z-10 mx-auto flex min-h-screen max-w-6xl px-4 pt-28 pb-12 md:pt-32 ${
+        className={`fixed inset-x-0 bottom-0 z-10 ${
           fase === 'frenando' ||
           fase === 'viajando' ||
           fase === 'intro' ||
           fase === 'aterrizando'
             ? 'overflow-hidden'
-            : 'overflow-visible'
+            : 'overflow-y-auto overflow-x-hidden'
         }`}
+        style={{ top: 'var(--altura-navbar, 0px)' }}
       >
+        <div className="flex min-h-full w-full items-center justify-center px-4 pt-6 pb-10 md:pt-10">
+          <div
+            className={`relative m-auto w-full max-w-5xl ${
+              fase === 'aterrizando' ? 'animate-aterrizaje-bloque' : ''
+            }`}
+            style={{
+              opacity: mostrarContenido ? 1 : 0,
+              transform:
+                !mostrarContenido && fase === 'viajando'
+                  ? 'translateY(46vh) scale(0.8)'
+                  : 'translateY(0) scale(1)',
+              filter: !mostrarContenido && fase === 'viajando' ? 'blur(14px)' : 'blur(0px)',
+              transition:
+                fase === 'aterrizando'
+                  ? 'none'
+                  : 'opacity 0.28s ease-in, transform 0.7s cubic-bezier(0.55, 0, 1, 0.45), filter 0.65s ease-in',
+              pointerEvents: mostrarContenido ? 'auto' : 'none',
+            }}
+          >
+            <Contenido key={activa} irA={irA} />
+          </div>
+        </div>
         <div
-          className={`m-auto w-full ${
-            fase === 'aterrizando' ? 'animate-aterrizaje-bloque' : ''
-          }`}
-          style={{
-            opacity: mostrarContenido ? 1 : 0,
-            transform:
-              !mostrarContenido && fase === 'viajando'
-                ? 'translateY(46vh) scale(0.8)'
-                : 'translateY(0) scale(1)',
-            filter: !mostrarContenido && fase === 'viajando' ? 'blur(14px)' : 'blur(0px)',
-            transition:
-              fase === 'aterrizando'
-                ? 'none'
-                : 'opacity 0.28s ease-in, transform 0.7s cubic-bezier(0.55, 0, 1, 0.45), filter 0.65s ease-in',
-            pointerEvents: mostrarContenido ? 'auto' : 'none',
-          }}
+          ref={scrollThumbRef}
+          className={`scroll-indicador ${scrollVisible ? 'is-visible' : ''}`}
+          aria-hidden="true"
         >
-          <Contenido key={activa} irA={irA} />
+          <div ref={scrollThumbBarRef} className="scroll-indicador__thumb" />
         </div>
       </main>
     </div>

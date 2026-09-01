@@ -21,16 +21,9 @@ export default function ContactSection() {
 
   return (
     <section aria-labelledby="titulo-contacto" className="w-full">
-      <p className="flex items-center gap-2.5 font-hud text-xs uppercase tracking-[0.4em] text-flare">
-        <span
-          aria-hidden="true"
-          className="h-1 w-1 rounded-full bg-flare shadow-[0_0_10px_rgba(224,82,82,0.9)]"
-        />
-        Transmisión · Señal abierta
-      </p>
       <h2
         id="titulo-contacto"
-        className="mt-5 font-display text-4xl font-bold uppercase tracking-wide text-lumen sm:text-5xl"
+        className="font-display text-4xl font-bold uppercase tracking-wide text-lumen sm:text-5xl"
       >
         Contacto
       </h2>
