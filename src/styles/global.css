@@ -116,20 +116,88 @@ html::-webkit-scrollbar {
   display: none;
 }
 
+html,
 body {
-  background-color: var(--color-void);
-  color: var(--color-lumen);
-  font-family: var(--font-body);
-}
-
-html {
-  scroll-behavior: smooth;
+  height: 100%;
+  overflow: hidden;
 }
 
 body {
   background-color: var(--color-void);
   color: var(--color-lumen);
   font-family: var(--font-body);
+}
+
+#contenido-principal {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+#contenido-principal::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+/* Indicador de scroll propio */
+.scroll-indicador {
+  position: absolute;
+  top: 0;
+  right: 3px;
+  bottom: 0;
+  width: 4px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  z-index: 5;
+}
+
+.scroll-indicador.is-visible {
+  opacity: 1;
+}
+
+.scroll-indicador:not(.es-scrolleable) {
+  opacity: 0 !important;
+}
+
+.scroll-indicador__thumb {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  border-radius: 9999px;
+  background: linear-gradient(
+    to bottom,
+    var(--color-ember),
+    var(--color-stellar)
+  );
+  box-shadow: 0 0 10px rgba(224, 82, 82, 0.35);
+}
+
+/* Carrusel 3D — posiciones de tarjetas (mobile-first) */
+.carrusel-pos-0 {
+  transform: translateX(-50%) translateY(0) rotateY(0deg) scale(1);
+}
+
+.carrusel-pos-1 {
+  transform: translateX(calc(-50% + 38%)) translateY(8%) translateZ(-200px)
+    rotateY(24deg) scale(0.94);
+}
+
+.carrusel-pos-neg1 {
+  transform: translateX(calc(-50% - 38%)) translateY(8%) translateZ(-200px)
+    rotateY(-24deg) scale(0.94);
+}
+
+@media (min-width: 640px) {
+  .carrusel-pos-1 {
+    transform: translateX(calc(-50% + 62%)) translateY(9%) translateZ(-300px)
+      rotateY(26deg) scale(0.9);
+  }
+
+  .carrusel-pos-neg1 {
+    transform: translateX(calc(-50% - 62%)) translateY(9%) translateZ(-300px)
+      rotateY(-26deg) scale(0.9);
+  }
 }
 
 ::selection {
