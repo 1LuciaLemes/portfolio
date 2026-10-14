@@ -188,6 +188,10 @@ body {
     rotateY(-24deg) scale(0.94);
 }
 
+.carrusel-pos-oculta {
+  transform: translateX(-50%) translateY(9%) translateZ(-520px) scale(0.86);
+}
+
 @media (min-width: 640px) {
   .carrusel-pos-1 {
     transform: translateX(calc(-50% + 62%)) translateY(9%) translateZ(-300px)

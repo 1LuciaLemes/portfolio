@@ -5,7 +5,8 @@
     "tecnologias": ["React", "TypeScript", "Node.js", "Express", "Monorepo", "CI/CD"],
     "demo": "https://lucia-taskflow.vercel.app",
     "repo": "https://github.com/1LuciaLemes/lucia-taskflow",
-    "imagen": "/proyectos/taskflow.png"
+    "imagen": "/proyectos/taskflow.png",
+    "zoom": 1.5
   },
   {
     "titulo": "Globalance",

@@ -48,7 +48,9 @@ export default function ProjectsSection() {
     (idx) => {
       const offset = (((idx - centro) % CANT) + CANT) % CANT;
       if (offset === 0) return 0;
-      return offset === 1 ? 1 : -1;
+      if (offset === 1) return 1;
+      if (offset === CANT - 1) return -1;
+      return null;
     },
     [centro]
   );
@@ -111,14 +113,18 @@ export default function ProjectsSection() {
           {CANT > 0 &&
             projects.map((p, idx) => {
               const pos = posicionDe(idx);
-              const clasePos =
-                pos === 0
+              const oculta = pos === null;
+              const zoom = p.zoom ?? 1;
+              const clasePos = oculta
+                ? 'carrusel-pos-oculta'
+                : pos === 0
                   ? 'carrusel-pos-0'
                   : pos === 1
                     ? 'carrusel-pos-1'
                     : 'carrusel-pos-neg1';
-              const estilosFondo =
-                pos === 0
+              const estilosFondo = oculta
+                ? { opacity: 0, filter: 'blur(2px)', zIndex: 0, pointerEvents: 'none' }
+                : pos === 0
                   ? { opacity: 1, filter: 'blur(0px)', zIndex: 20 }
                   : { opacity: 0.6, filter: 'blur(1.5px)', zIndex: 10 };
 
@@ -128,13 +134,14 @@ export default function ProjectsSection() {
                   data-cursor={pos === 0 ? 'encuadre' : undefined}
                   aria-hidden={pos !== 0 ? 'true' : undefined}
                   onClick={(e) => {
+                    if (oculta) return;
                     if (pos !== 0) {
                       e.preventDefault();
                       setCentro(idx);
                     }
                   }}
                   className={`absolute left-1/2 top-0 flex h-full w-full max-w-xl flex-col overflow-hidden rounded-xl border border-surface/80 bg-abyss/95 shadow-2xl will-change-transform ${clasePos} ${
-                    pos !== 0 ? 'cursor-pointer' : ''
+                    !oculta && pos !== 0 ? 'cursor-pointer' : ''
                   }`}
                   style={{
                     ...estilosFondo,
@@ -152,25 +159,35 @@ export default function ProjectsSection() {
                           aria-label={`Abrir demo de ${p.titulo}`}
                           className="group/foto relative block h-full w-full"
                         >
-                          <img
-                            src={p.imagen}
-                            alt={p.titulo}
-                            loading="lazy"
-                            className="h-full w-full object-cover object-top transition-transform duration-500 group-hover/foto:scale-[1.04]"
-                            style={{ filter: 'saturate(1.05) brightness(1.02)' }}
-                          />
+                          <div
+                            className="h-full w-full"
+                            style={{ transform: `scale(${zoom})`, transformOrigin: 'top center' }}
+                          >
+                            <img
+                              src={p.imagen}
+                              alt={p.titulo}
+                              loading="lazy"
+                              className="h-full w-full object-cover object-top transition-transform duration-500 group-hover/foto:scale-[1.04]"
+                              style={{ filter: 'saturate(1.05) brightness(1.02)' }}
+                            />
+                          </div>
                           <span className="pointer-events-none absolute inset-0 hidden items-end justify-end bg-gradient-to-t from-void/70 via-transparent to-transparent p-3 font-hud text-[11px] uppercase tracking-widest text-lumen opacity-0 transition-opacity duration-300 group-hover/foto:opacity-100 sm:flex">
                             Ver demo ↗
                           </span>
                         </a>
                       ) : (
-                        <img
-                          src={p.imagen}
-                          alt={p.titulo}
-                          loading="lazy"
-                          className="h-full w-full object-cover object-top"
-                          style={{ filter: 'saturate(1.05) brightness(1.02)' }}
-                        />
+                        <div
+                          className="h-full w-full"
+                          style={{ transform: `scale(${zoom})`, transformOrigin: 'top center' }}
+                        >
+                          <img
+                            src={p.imagen}
+                            alt={p.titulo}
+                            loading="lazy"
+                            className="h-full w-full object-cover object-top"
+                            style={{ filter: 'saturate(1.05) brightness(1.02)' }}
+                          />
+                        </div>
                       )
                     ) : (
                       <PlaceholderImagen titulo={p.titulo} />
