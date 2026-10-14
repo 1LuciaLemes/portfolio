@@ -1,5 +1,13 @@
 [
   {
+    "titulo": "Taskflow",
+    "descripcion": "Task System — Gestor de tareas en equipo con subtareas anidadas, tablero drag & drop y progreso ponderado. Full-stack en un monorepo TypeScript (React + Node/Express), con tests, CI y demo en vivo.",
+    "tecnologias": ["React", "TypeScript", "Node.js", "Express", "Monorepo", "CI/CD"],
+    "demo": "https://lucia-taskflow.vercel.app",
+    "repo": "https://github.com/1LuciaLemes/lucia-taskflow",
+    "imagen": "/proyectos/taskflow.png"
+  },
+  {
     "titulo": "Globalance",
     "descripcion": "Billetera virtual multimoneda en equipo, orientada a freelancers para gestionar pagos y operaciones en distintas divisas. Desarrollé transferencias, conversiones, contactos, historial y notificaciones, además de un buscador global, con servicios mock para desacoplar el frontend del backend.",
     "tecnologias": ["React", "TypeScript", "Vite", "Tailwind CSS", "React Router", "Firebase", "APIs REST", "Vitest"],
